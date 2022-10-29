@@ -22,8 +22,10 @@ class App extends Component<{}, IState> {
     this.state = {
       // data saves the server responds.
       // We use this state to parse data down to the child element (Graph) as element property
-      showGraph: false,
+      
       data: [],
+      //when constructed, show graph needs to be false - awaiting button press
+      showGraph: false,
     };
   }
 
@@ -42,6 +44,7 @@ class App extends Component<{}, IState> {
   getDataFromServer() {
 
     let x = 0;
+    //get new data at fixed intervals of 100ms, after 1000 datapoints -> reset interval
     const interval = setInterval(() => {
       DataStreamer.getData((serverResponds: ServerRespond[]) => {
         // Update the state by creating a new array of data that consists of
@@ -50,8 +53,6 @@ class App extends Component<{}, IState> {
           data: serverResponds,
           showGraph:  true,
         });
-
-
       });
       x++;
       if (x > 1000){
